@@ -1,34 +1,45 @@
 import UserController from "../controllers/user.controller";
 import { qs } from "../helpers";
-import UserModel from "../models/user.model";
+import UserLoginModel from "../models/user-login.model";
+import UserRegistrationModel from "../models/user-registration.model";
 
 
 export default class UserView {
-    private submitButton: HTMLButtonElement;
-    private loginForm: HTMLFormElement;
-    private emailInput: HTMLInputElement;
-    private passwordInput: HTMLInputElement;
+    private loginForm: HTMLFormElement;    
+    private loginEmailInput: HTMLInputElement;
+    private loginPasswordInput: HTMLInputElement;
+    private registerForm: HTMLFormElement;    
+    private registerEmailInput: HTMLInputElement;
+    private registerPasswordInput: HTMLInputElement;
 
     constructor() {
-        this.submitButton = qs('.app__login button') as HTMLButtonElement;
-        this.loginForm = qs('.app__login form') as HTMLFormElement;
-        this.emailInput = qs('.app__login input[id="email"]') as HTMLInputElement;
-        this.passwordInput = qs('.app__login input[id="password"]') as HTMLInputElement;
+        this.loginForm = qs('.app__login form') as HTMLFormElement;                
+        this.loginEmailInput = qs('.app__login input[id="email"]') as HTMLInputElement;
+        this.loginPasswordInput = qs('.app__login input[id="password"]') as HTMLInputElement;
+        this.registerForm = qs('.app__register form') as HTMLFormElement;        
+        this.registerEmailInput = qs('.app__register input[id="email"]') as HTMLInputElement;
+        this.registerPasswordInput = qs('.app__register input[id="password"]') as HTMLInputElement;
     }
 
     bindEventListeners(controller: UserController): void {
+
         this.loginForm.addEventListener('submit', (e: Event) => {
             e.preventDefault();
-            
-            console.log(this.emailInput?.value);
-            console.log(this.passwordInput?.value);
-            
-            const user: UserModel = {
-                email: 'johndoe@24consulting.it',
-                password: '24consulting',
+            const user: UserLoginModel = {
+                email: this.loginEmailInput?.value,
+                password: this.loginPasswordInput?.value,
                 id: 1
             }
             controller.login(user);
+        });
+
+        this.registerForm.addEventListener('submit', (e: Event) => {
+            e.preventDefault();
+            const user: UserRegistrationModel = {
+                email: this.registerEmailInput?.value,
+                password: this.registerPasswordInput?.value
+            }
+            controller.register(user);
         });
     }
 }

@@ -1,4 +1,4 @@
-import UserModel from "../models/user.model";
+import UserModel from "../models/user-registration.model";
 import UserService from "../services/user.service";
 import UserView from "../views/user.view";
 

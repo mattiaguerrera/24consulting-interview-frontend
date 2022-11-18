@@ -1,5 +1,5 @@
 import { environment } from "../assets/environment";
-import UserModel from "../models/user.model";
+import UserModel from "../models/user-registration.model";
 
 export default class UserService {
 

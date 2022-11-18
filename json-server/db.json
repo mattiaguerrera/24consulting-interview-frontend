@@ -16,6 +16,16 @@
       "email": "johndoe@24consulting.it",
       "password": "$2a$10$s/sPhzxph6setFYcpi/YVOVWFj7/j6Mu4Z1H235.VeOjZyDkp1cSi",
       "id": 1
+    },
+    {
+      "email": "test@gmail.com",
+      "password": "$2a$10$S9PN/6WXx..LS30GV/xpYOrt4jlnZnvOie/y/jg./yUSw.BtDkaEK",
+      "id": 2
+    },
+    {
+      "email": "everyman@24consulting.it",
+      "password": "$2a$10$0dk2bTCDicFwR6iv3izQw.uqvk08rjE5R90rdQf9Cynr6hnnGaa/.",
+      "id": 3
     }
   ]
 }
