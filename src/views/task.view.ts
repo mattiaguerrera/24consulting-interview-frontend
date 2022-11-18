@@ -5,44 +5,21 @@ import TaskModel from '../models/task.model';
 
 export default class TaskView {
     private taskSaveBtn: Element;
-
     private taskSaveInput: HTMLButtonElement;
-
-    private taskEditBtn: Element;
-
-    // private taskContentEl: Element;
-
-    // private taskcontentActionsEl: Element;
-
-    // private taskMarkDone: Element;
-
-    // private taskTotal: Element;
-
-    // private taskClearComplete: Element;
-
-    // private taskFilter: Element;
-
     private yesButton: Element;
 
     constructor() {
         this.taskSaveBtn = qs('#push');
         this.taskSaveInput = qs('#inputTask') as HTMLButtonElement;
         this.yesButton = qs('#confirmationYes');
-        this.taskEditBtn = qs('#task .edit');
-        // this.taskContentEl = qs('#task');
-        // this.taskcontentActionsEl = qs('#actionTask');                
-        // this.taskMarkDone = qs('#made-done');
-        // this.taskTotal = qs('.total-items');
-        // this.taskClearComplete = qs('.clear-completed');
-        // this.taskFilter = qs('.tasks__filters');
     }
 
     renderTasks(tasks: TaskModel[]): TaskView {
         const appDom = document.querySelector<HTMLDivElement>('#app');
         if (appDom) {
             const tasksDom = document.querySelector<HTMLDivElement>('#tasks');
-            tasksDom!.innerHTML = '';
-            if (tasks) {
+            if (tasks && tasksDom) {
+                tasksDom!.innerHTML = '';
                 const ul = document.createElement('ul');
                 for (let i = 0; i < tasks.length; i++) {
                     const task = tasks[i] as TaskModel;
@@ -72,7 +49,7 @@ export default class TaskView {
             let targetNode = e.target as HTMLElement;
             if (targetNode.localName.includes('span')) {
                 targetNode = targetNode.closest('li')!;
-            }            
+            }
             const taskId = targetNode.getAttribute('data-task-id')!;
             const action = targetNode.getAttribute('data-action')!;
 
@@ -197,4 +174,5 @@ export default class TaskView {
             }
         }
     }
+
 }
