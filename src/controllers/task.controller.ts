@@ -5,8 +5,6 @@ import TaskView from '../views/task.view';
 import ConfirmationController from './confirmation.controller';
 import NotificationController from "./notification.controller";
 
-type GetTask = () => TaskModel[];
-
 export default class TaskController {
     private tasks: TaskModel[];
     private taskView: TaskView;
@@ -30,11 +28,12 @@ export default class TaskController {
         this.confirmationController = new ConfirmationController();
     }
 
-    init(): void {        
+    init(bindEvent= true): void {        
         this.taskService.get().then(res => {
             this.tasks = res;
-            this.taskView.bindEventListeners(this);
             this.displayTasks(this.tasks);
+            if (bindEvent)
+                this.taskView.bindEventListeners(this);            
         });
     }
 

@@ -159,9 +159,9 @@ async function deleteTask(id: string): Promise<string> {
 
 async function getLastIdTask(): Promise<string> {
     const arr: number[] = [];
-    let newId = '';
+    let newId = '1';
     await getTasksId().then(res => {
-        if (res) {
+        if (res && res.length > 0) {
             res.forEach((elem) => {
                 if (typeof toNumber(elem.id) == 'number')
                     arr.push(toNumber(elem.id));

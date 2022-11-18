@@ -1,13 +1,13 @@
 interface UserType {
     email: string;
     password: string;
-    id: number;
+    id: number | null;
 }
 
 export default class UserModel implements UserType {
     email: string;
     password: string;
-    id: number;
+    id: number | null;
 
     constructor(email: string, password: string, id: number) {
         this.email = email;

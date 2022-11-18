@@ -7,16 +7,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>24/Consulting front-end interview</title>
     <!-- <link rel="stylesheet" href="./styles/main.scss" /> -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
     <div class="container">
         <h1>Hello 24/Consulting!</h1>
-        <a rel="noopener" href="https://github.com/24Consulting/interview-frontend" target="_blank">Github
-            Repository</a>
-
-        <div class="container-task">
-            <div id="myDIV" class="header">
+        <p>
+            <a rel="noopener" href="https://github.com/24Consulting/interview-frontend" target="_blank">Github
+                Repository</a>
+        </p>
+        <p>
+            <a rel="noopener" href="https://github.com/24Consulting/interview-frontend" target="_blank">Github Mattia
+                Repository</a>
+        </p>
+    </div>
+    <!-- Task area -->
+    <div class="container">
+        <div class="app__task">
+            <div class="header">
                 <h2>My Todo List</h2>
                 <input type="text" id="inputTask" placeholder="Add Tasks">
                 <span id="push">Add</span>
@@ -25,7 +38,6 @@
         </div>
         <div id="app"></div>
     </div>
-
     <!-- Confirmation -->
     <div class="app__confirmation confirmation d-none">
         <div class="confirmation__content">
@@ -41,7 +53,39 @@
             </div>
         </div>
     </div>
-
+    <!-- Notification for app -->
+    <div class="app__notification notification">
+        <div class="alert notification__content">
+            <span class="notification__description">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro,
+                excepturi?</span>
+            <span class="notification__actions dismiss">
+                <i class="fa fa-close"></i>
+            </span>
+        </div>
+    </div>
+    <!-- Loading area -->
+    <div class="app__loading loading">
+        <div class="preloader">
+            <div class="preloader__absolute">
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+                <div class="preloader__item"></div>
+            </div>
+            <p class="preloader__processing">Loading...</p>
+        </div>
+    </div>
+    <!-- Loading area -->
+    <div class="app__login">
+        <form>
+            <h3>Login Here</h3>
+            <label for="username">Username</label>
+            <input type="text" placeholder="Email" id="email">
+            <label for="password">Password</label>
+            <input type="password" placeholder="Password" id="password">
+            <button>Log In</button>
+        </form>
+    </div>
     <script type="module" src="/src/main.ts"></script>
 </body>
 

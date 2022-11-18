@@ -188,7 +188,7 @@ export default class TaskView {
                         state: 'doing'
                     }
                     controller.updateTask(task);
-                    controller.init();
+                    controller.init(false);
                 }
 
                 // const spanEl = liEl.firstElementChild as HTMLInputElement;
