@@ -249,3 +249,16 @@ ul li {
 		cursor: pointer;
 	}
 }
+
+.pagination-box {
+	margin: 20px 0;
+
+	button {
+		padding: 5px 10px;
+		width: 100px;
+	}
+
+	span {
+		margin-left: 20px;
+	}
+}

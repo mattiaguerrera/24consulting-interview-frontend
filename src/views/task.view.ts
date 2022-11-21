@@ -6,41 +6,75 @@ import TaskModel from '../models/task.model';
 export default class TaskView {
     private taskSaveBtn: Element;
     private taskSaveInput: HTMLButtonElement;
-    private yesButton: Element;
+    private yesButton: Element;    
+    private tasksTmp: TaskModel[];
+    private previousPage: HTMLButtonElement | undefined;
+    private nextPage: HTMLButtonElement | undefined;
+    private tasksDiv: Element;
+    private curPage = 1;
+    private pageSize = 4;    
 
     constructor() {
         this.taskSaveBtn = qs('#push');
         this.taskSaveInput = qs('#inputTask') as HTMLButtonElement;
-        this.yesButton = qs('#confirmationYes');
+        this.yesButton = qs('#confirmationYes');                
+        this.tasksDiv = qs('#tasks');
+        this.tasksTmp = [];
+    }
+
+
+    renderPagination(tasks: TaskModel[] = []): void {
+        const tasksPaging: TaskModel[] = [];
+        if (tasks.length > 0)
+            this.tasksTmp = tasks;        
+        if (this.tasksDiv) {
+            this.tasksDiv!.innerHTML = '';
+            const paginationDiv = document.createElement('div');
+            paginationDiv.classList.add('pagination-box');
+            paginationDiv.innerHTML = `                   
+                <button class="paging-action" data-action="prev" title="Prev">Previous</button>
+                <button class="paging-action" data-action="next" title="Next">Next</button>
+                <span>Total items: ${this.tasksTmp.length}</span>
+                <span>Page: ${this.curPage}</span>
+            `;
+            this.tasksTmp.filter((_row: TaskModel, _index: number) => {
+                const start = (this.curPage - 1) * this.pageSize;
+                const end = this.curPage * this.pageSize;
+                if (_index >= start && _index < end) return true;
+                return false;
+            }).forEach(e => {
+                tasksPaging.push(e);
+            });
+            this.renderTasks(tasksPaging);
+            this.tasksDiv.appendChild(paginationDiv);
+            this.bindEventListenersPagination();
+            console.log(tasksPaging);
+        }
+        return;
     }
 
     renderTasks(tasks: TaskModel[]): TaskView {
-        const appDom = document.querySelector<HTMLDivElement>('#app');
-        if (appDom) {
-            const tasksDom = document.querySelector<HTMLDivElement>('#tasks');
-            if (tasks && tasksDom) {
-                tasksDom!.innerHTML = '';
-                const ul = document.createElement('ul');
-                for (let i = 0; i < tasks.length; i++) {
-                    const task = tasks[i] as TaskModel;
-                    const classChecked = task.state == 'done' ? 'checked' : '';
-                    const taskItem = document.createElement('div');
-                    taskItem.innerHTML = `
-                        <li data-task-id="${task.id}" data-action="mark" class="item ${classChecked}">
-                            <span>${task.id} - ${task.title}</span>
-                            <button class="task-action edit" data-task-id="${task.id}" data-action="edit" title="Edit">Edit</button>
-                            <button class="task-action close" data-task-id="${task.id}" data-action="remove" title="Delete">Delete</button>                            
-                        </li>`;
-                    ul.appendChild(taskItem);
-                }
-                tasksDom!.appendChild(ul);
+        if (tasks && this.tasksDiv) {            
+            const ul = document.createElement('ul');
+            for (let i = 0; i < tasks.length; i++) {
+                const task = tasks[i] as TaskModel;
+                const classChecked = task.state == 'done' ? 'checked' : '';
+                const taskItem = document.createElement('div');
+                taskItem.innerHTML = `
+                    <li data-task-id="${task.id}" data-action="mark" class="item ${classChecked}">
+                        <span>${task.id} - ${task.title}</span>
+                        <button class="task-action edit" data-task-id="${task.id}" data-action="edit" title="Edit">Edit</button>
+                        <button class="task-action close" data-task-id="${task.id}" data-action="remove" title="Delete">Delete</button>                            
+                    </li>`;
+                ul.appendChild(taskItem);
             }
+            this.tasksDiv!.appendChild(ul);
         }
         return this;
     }
 
     bindEventListeners(controller: TaskController): void {
-
+        
         const tasksContent = document.querySelector<HTMLDivElement>('#tasks');
         tasksContent?.addEventListener('click', (e: Event) => {
             e.preventDefault();
@@ -106,6 +140,27 @@ export default class TaskView {
 
         this.yesButton.addEventListener('click', (): void => {
             controller.deleteTask();
+        });
+    }
+
+
+    bindEventListenersPagination(): void {
+        
+        this.previousPage = qs('button[data-action="prev"]') as HTMLButtonElement;
+        this.nextPage = qs('button[data-action="next"]') as HTMLButtonElement;
+        console.log(this.previousPage);
+        console.log(this.nextPage);
+
+        this.previousPage.addEventListener('click', (): void => {
+            if (this.curPage > 1) this.curPage--;
+            this.renderPagination();
+        });
+
+        this.nextPage.addEventListener('click', (): void => {
+            if ((this.curPage * this.pageSize) < this.tasksTmp.length) {
+                this.curPage++;
+                this.renderPagination();
+            }
         });
     }
 
@@ -175,4 +230,14 @@ export default class TaskView {
         }
     }
 
+
+    // previousPage() {
+    //     if (this.curPage > 1) this.curPage--;
+    //     renderTable();
+    // }
+
+    // nextPage() {
+    //     if ((this.curPage * this.pageSize) < data.length) this.curPage++;
+    //     renderTable();
+    // }
 }

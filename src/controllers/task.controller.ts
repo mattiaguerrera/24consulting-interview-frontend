@@ -38,7 +38,7 @@ export default class TaskController {
     }
 
     displayTasks(tasks: TaskModel[]): void {
-        this.taskView.renderTasks(tasks);
+        this.taskView.renderPagination(tasks);
     };
 
     addTask(title: string): boolean {
