@@ -23,7 +23,7 @@ export default class TaskView {
     }
 
 
-    renderPagination(tasks: TaskModel[] = []): void {
+    render(tasks: TaskModel[] = []): void {
         const tasksPaging: TaskModel[] = [];
         if (tasks.length > 0)
             this.tasksTmp = tasks;        
@@ -153,13 +153,13 @@ export default class TaskView {
 
         this.previousPage.addEventListener('click', (): void => {
             if (this.curPage > 1) this.curPage--;
-            this.renderPagination();
+            this.render();
         });
 
         this.nextPage.addEventListener('click', (): void => {
             if ((this.curPage * this.pageSize) < this.tasksTmp.length) {
                 this.curPage++;
-                this.renderPagination();
+                this.render();
             }
         });
     }
