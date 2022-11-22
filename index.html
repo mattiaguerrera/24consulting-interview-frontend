@@ -15,8 +15,8 @@
 </head>
 
 <body>
-    <div id="app"></div>
-    <div class="container">
+    <div id="app" style="display:none;"></div>
+    <div class="container" style="display:none;">
         <h1>Hello 24/Consulting!</h1>
         <p>
             <a rel="noopener" href="https://github.com/24Consulting/interview-frontend" target="_blank">Github
@@ -32,8 +32,16 @@
         <div class="container">
             <div class="header">
                 <h2>My Todo List</h2>
-                <input type="text" id="inputTask" placeholder="Add Tasks">
-                <span id="push">Add</span>
+                <div class="box-filtering">
+                    <input type="text" id="filterTask" placeholder="Filter Tasks">
+                    <span class="btn action" data-filter-type="all">All</span>
+                    <span class="btn action" data-filter-type="completed">Completed</span>
+                    <span class="btn action" data-filter-type="active">Active</span>
+                </div>
+                <div class="box-adding">
+                    <input type="text" id="inputTask" placeholder="Add Tasks">
+                    <span class="btn action" id="push">Add</span>
+                </div>
             </div>
             <div id="tasks"></div>
         </div>

@@ -6,27 +6,33 @@ import TaskModel from '../models/task.model';
 export default class TaskView {
     private taskSaveBtn: Element;
     private taskSaveInput: HTMLButtonElement;
-    private yesButton: Element;    
+    private yesButton: Element;
     private tasksTmp: TaskModel[];
     private previousPage: HTMLButtonElement | undefined;
     private nextPage: HTMLButtonElement | undefined;
     private tasksDiv: Element;
     private curPage = 1;
-    private pageSize = 4;    
+    private pageSize = 5;
+    private filterMode: string;
+    private arrFilters: string[];
+    private inputFilterTask: string;
 
     constructor() {
         this.taskSaveBtn = qs('#push');
         this.taskSaveInput = qs('#inputTask') as HTMLButtonElement;
-        this.yesButton = qs('#confirmationYes');                
+        this.yesButton = qs('#confirmationYes');
         this.tasksDiv = qs('#tasks');
         this.tasksTmp = [];
+        this.filterMode = '';
+        this.inputFilterTask = '';
+        this.arrFilters = [CONST.FILTERS.ACTIVE, CONST.FILTERS.COMPLETED, CONST.FILTERS.ALL, CONST.FILTERS.INPUT];
     }
 
-
     render(tasks: TaskModel[] = []): void {
+        this.toggleCurPage();            
         const tasksPaging: TaskModel[] = [];
         if (tasks.length > 0)
-            this.tasksTmp = tasks;        
+            this.tasksTmp = tasks;
         if (this.tasksDiv) {
             this.tasksDiv!.innerHTML = '';
             const paginationDiv = document.createElement('div');
@@ -48,13 +54,12 @@ export default class TaskView {
             this.renderTasks(tasksPaging);
             this.tasksDiv.appendChild(paginationDiv);
             this.bindEventListenersPagination();
-            console.log(tasksPaging);
         }
         return;
     }
 
     renderTasks(tasks: TaskModel[]): TaskView {
-        if (tasks && this.tasksDiv) {            
+        if (tasks && this.tasksDiv) {
             const ul = document.createElement('ul');
             for (let i = 0; i < tasks.length; i++) {
                 const task = tasks[i] as TaskModel;
@@ -74,8 +79,8 @@ export default class TaskView {
     }
 
     bindEventListeners(controller: TaskController): void {
-        
-        const tasksContent = document.querySelector<HTMLDivElement>('#tasks');
+
+        const tasksContent = qs('#tasks');
         tasksContent?.addEventListener('click', (e: Event) => {
             e.preventDefault();
             e.stopPropagation();
@@ -122,8 +127,10 @@ export default class TaskView {
 
         this.taskSaveInput.addEventListener('keypress', (e: KeyboardEvent): void => {
             if (e.key === CONST.KEYNAME.ENTER) {
-                const title = e.target as HTMLInputElement;
-                const result = controller.addTask(title.value);
+                const input = e.target as HTMLInputElement;
+                if (!input.value.length)
+                    return;
+                const result = controller.addTask(input.value);
                 // TODO perché result è vuoto?
                 // if (result) {
                 //     this.taskSaveInput.innerHTML = '';
@@ -132,35 +139,67 @@ export default class TaskView {
             }
         });
 
-        this.taskSaveBtn.addEventListener('click', (e: Event): void => {
-            const title = (<HTMLInputElement>this.taskSaveInput).value;
-            controller.addTask(title);
+        this.taskSaveBtn.addEventListener('click', (): void => {
+            const input = (<HTMLInputElement>this.taskSaveInput);
+            if (!input.value.length)
+                return;
+            controller.addTask(input.value);
             this.taskSaveInput.value = '';
         });
 
         this.yesButton.addEventListener('click', (): void => {
             controller.deleteTask();
         });
+
+        this.bindEventListenersFilter(controller);
     }
 
-
     bindEventListenersPagination(): void {
-        
         this.previousPage = qs('button[data-action="prev"]') as HTMLButtonElement;
         this.nextPage = qs('button[data-action="next"]') as HTMLButtonElement;
-        console.log(this.previousPage);
-        console.log(this.nextPage);
-
         this.previousPage.addEventListener('click', (): void => {
             if (this.curPage > 1) this.curPage--;
             this.render();
         });
-
         this.nextPage.addEventListener('click', (): void => {
             if ((this.curPage * this.pageSize) < this.tasksTmp.length) {
                 this.curPage++;
                 this.render();
             }
+        });
+    }
+
+    bindEventListenersFilter(controller: TaskController): void {        
+        const tasksFilteringContent = qs('.box-filtering');
+        tasksFilteringContent?.addEventListener('click', (e: Event) => {
+            const targetNode = e.target as HTMLElement;
+            if (!targetNode.localName.includes('span'))
+                return;
+            const action = targetNode.getAttribute('data-filter-type')!;
+            switch (action) {
+                case CONST.FILTERS.ACTIVE:
+                    this.filterMode = CONST.FILTERS.ACTIVE;
+                    controller.filterBy(this.filterMode, this.inputFilterTask);                    
+                    break;
+                case CONST.FILTERS.COMPLETED:
+                    this.filterMode = CONST.FILTERS.COMPLETED;
+                    controller.filterBy(this.filterMode, this.inputFilterTask);
+                    break;
+                case CONST.FILTERS.ALL:
+                    this.filterMode = CONST.FILTERS.ALL;
+                    controller.filterBy(this.filterMode, this.inputFilterTask);
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        const inputTasksFilter = qs('.box-filtering input');
+        inputTasksFilter?.addEventListener('input', () => {            
+            const targetNode = inputTasksFilter as HTMLInputElement;
+            this.inputFilterTask = targetNode.value;
+            this.filterMode = CONST.FILTERS.INPUT;
+            controller.filterBy(this.filterMode, this.inputFilterTask);
         });
     }
 
@@ -230,14 +269,13 @@ export default class TaskView {
         }
     }
 
+    toggleCurPage() {
+        // eslint-disable-next-line no-constant-condition
+        if (this.arrFilters.includes(this.filterMode)) {
+            this.curPage = 1;
+            this.filterMode = '';
+        }
+            
+    }
 
-    // previousPage() {
-    //     if (this.curPage > 1) this.curPage--;
-    //     renderTable();
-    // }
-
-    // nextPage() {
-    //     if ((this.curPage * this.pageSize) < data.length) this.curPage++;
-    //     renderTable();
-    // }
 }

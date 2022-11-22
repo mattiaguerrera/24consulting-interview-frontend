@@ -1,4 +1,4 @@
-import CONST from '../constants/index';
+import { default as CONST } from '../constants/index';
 import TaskModel from "../models/task.model";
 import TaskService from "../services/task.service";
 import TaskView from '../views/task.view';
@@ -8,10 +8,6 @@ import NotificationController from "./notification.controller";
 export default class TaskController {
     private tasks: TaskModel[];
     private taskView: TaskView;
-    // private deleteTaskBtn: Element;
-    // private updateTaskBtn: Element;
-    // private addTaskBtn: Element;
-    // private taskContentData: Element;
     private currentTask: string;
     private notificationController: NotificationController;
     private confirmationController: ConfirmationController;
@@ -20,10 +16,6 @@ export default class TaskController {
         this.taskView = new TaskView();
         this.tasks = [];
         this.currentTask = "0";
-        // this.deleteTaskBtn = qs('#deleteTask');
-        // this.updateTaskBtn = qs('#updateTask');
-        // this.addTaskBtn = qs('#addTask');
-        // this.taskContentData = qs('#tasks');
         this.notificationController = new NotificationController();
         this.confirmationController = new ConfirmationController();
     }
@@ -72,7 +64,6 @@ export default class TaskController {
         try {
             this.taskService.delete(task.id);
             this.taskService.get().then(res => this.displayTasks(res));
-            //this.getCurrentFilter();
             this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.REMOVE_TASK);
             return true;
         } catch (error) {
@@ -107,5 +98,58 @@ export default class TaskController {
         this.notificationController.displayNotification(type, content);
     }
 
+    /* Filtering Area */
+    filterBy(filterType: string, filterValue: string): void {
+        const baseData = this.tasks; //toArray(this.getTasks()) as TaskModel[];
+        const activeTasks = baseData.filter((item): boolean => item.state == 'doing');
+        const completedTask = baseData.filter((item): boolean => item.state == 'done');
+        let dataFilter = null;
+
+        switch (filterType) {
+            case CONST.FILTERS.ACTIVE:
+                dataFilter = activeTasks;
+                if (filterValue)
+                    dataFilter = this.filterByValue(dataFilter, filterValue);
+                this.handleShowNotification(
+                    CONST.NOTIFICATIONS.INFORMATION,
+                    'Your action has been executed! The active tasks are showing.',
+                );
+                break;
+
+            case CONST.FILTERS.COMPLETED:
+                dataFilter = completedTask;
+                if (filterValue)
+                    dataFilter = this.filterByValue(dataFilter, filterValue);
+                this.handleShowNotification(
+                    CONST.NOTIFICATIONS.INFORMATION,
+                    'Your action has been executed! The completed tasks are showing.',
+                );
+                break;
+
+            case CONST.FILTERS.ALL:
+                dataFilter = baseData;
+                if (filterValue)
+                    dataFilter = this.filterByValue(dataFilter, filterValue);
+                this.handleShowNotification(
+                    CONST.NOTIFICATIONS.INFORMATION,
+                    'Your action has been executed! All tasks are showing.',
+                );
+                break;
+
+            case CONST.FILTERS.INPUT:
+                dataFilter = this.filterByValue(baseData, filterValue);
+                break;
+
+            default:
+                dataFilter = baseData
+                break;
+        }
+        this.displayTasks(dataFilter);
+    }
+
+    filterByValue(array: TaskModel[], input: string) {
+        return array.filter((o:any) =>
+            Object.keys(o).some(k => o[k].toLowerCase().includes(input.toLowerCase())));
+    }
 }
 

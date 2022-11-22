@@ -29,7 +29,6 @@ h2 {
 	padding: 0 20px 20px !important;
 }
 
-/* Style the list items */
 ul li {
 	cursor: pointer;
 	position: relative;
@@ -110,19 +109,7 @@ ul li {
 		clear: both;
 	}
 
-	/* Style the input */
-	input {
-		margin: 0;
-		border: none;
-		border-radius: 0;
-		width: 75%;
-		padding: 10px;
-		float: left;
-		font-size: 16px;
-	}
-
-	/* Style the "Add" button */
-	#push {
+	.btn.action {
 		padding: 12px;
 		width: 25%;
 		background: #d9d9d9;
@@ -135,14 +122,53 @@ ul li {
 		border-radius: 0;
 	}
 
-	#push:hover {
+	.btn.action:hover {
 		background-color: #bbb;
+	}
+
+	input {
+		margin: 0;
+		border: none;
+		border-radius: 0;
+		width: 75%;
+		padding: 10px;
+		float: left;
+		font-size: 16px;
+	}
+
+	.box-adding {
+		overflow: hidden;
+		margin-top: 15px;
+
+		.btn.action {
+			width: 25%;
+		}
+
+		input {
+			width: 75%;
+		}
+	}
+
+	.box-filtering {
+		overflow: hidden;
+
+		.btn.action {
+			width: 16.666%;
+		}
+
+		input {
+			width: 50%;
+		}
 	}
 
 	#tasks {
 		input {
 			padding: 4px;
 			max-width: 350px;
+		}
+
+		ul {
+			min-height: 250px;
 		}
 	}
 }
