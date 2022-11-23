@@ -13,9 +13,8 @@ export default class UserService {
 }
 
 
-async function loginUser(user: UserModel): Promise<boolean> {
+async function loginUser(user: UserModel): Promise<any> {
     try {
-        console.log(JSON.stringify(user));
         const response = await fetch(environment.urlUserLogin, {
             method: 'POST',
             headers: {
@@ -26,7 +25,8 @@ async function loginUser(user: UserModel): Promise<boolean> {
         if (!response.ok) {
             throw new Error(`Error! status: ${response.status}`);
         }
-        const result = (await response.json()) as boolean;
+        const result = (await response.json()) as any;
+        console.log(result);
         return result;
     } catch (error) {
         if (error instanceof Error) {
@@ -39,7 +39,7 @@ async function loginUser(user: UserModel): Promise<boolean> {
     }
 }
 
-async function registerUser(user: UserModel): Promise<boolean> {
+async function registerUser(user: UserModel): Promise<any> {
     try {
         const response = await fetch(environment.urlUserRegister, {
             method: 'POST',
@@ -51,7 +51,7 @@ async function registerUser(user: UserModel): Promise<boolean> {
         if (!response.ok) {
             throw new Error(`Error! status: ${response.status}`);
         }
-        const result = (await response.json()) as boolean;
+        const result = (await response.json()) as any;
         return result;
     } catch (error) {
         if (error instanceof Error) {

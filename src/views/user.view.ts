@@ -11,6 +11,7 @@ export default class UserView {
     private registerForm: HTMLFormElement;    
     private registerEmailInput: HTMLInputElement;
     private registerPasswordInput: HTMLInputElement;
+    private logoutBtn: HTMLSpanElement;
 
     constructor() {
         this.loginForm = qs('.app__login form') as HTMLFormElement;                
@@ -19,6 +20,7 @@ export default class UserView {
         this.registerForm = qs('.app__register form') as HTMLFormElement;        
         this.registerEmailInput = qs('.app__register input[id="email"]') as HTMLInputElement;
         this.registerPasswordInput = qs('.app__register input[id="password"]') as HTMLInputElement;
+        this.logoutBtn = qs('#logout') as HTMLSpanElement;
     }
 
     bindEventListeners(controller: UserController): void {
@@ -31,6 +33,7 @@ export default class UserView {
                 id: 1
             }
             controller.login(user);
+            this.loginForm.reset();
         });
 
         this.registerForm.addEventListener('submit', (e: Event) => {
@@ -40,6 +43,9 @@ export default class UserView {
                 password: this.registerPasswordInput?.value
             }
             controller.register(user);
+            this.registerForm.reset();
         });
+
+        this.logoutBtn.addEventListener('click', () => controller.logout());
     }
 }

@@ -114,9 +114,9 @@ export default class TaskView {
                     const li = targetNode.closest('li');
                     if (li) {
                         const classList = li.classList;
-                        classList.toggle('checked');
                         const checked = classList.contains('checked');
-                        controller.markTaskToggle(taskId, checked);
+                        if (controller.markTaskToggle(taskId, checked))
+                            classList.toggle('checked')
                     }
                     break;
 

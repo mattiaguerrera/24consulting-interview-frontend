@@ -1,6 +1,8 @@
 import { environment } from "../assets/environment";
+import { default as CONST } from '../constants/index';
 import { toNumber } from "../helpers";
 import TaskModel from "../models/task.model";
+import StorageService from '../services/storage.service';
 
 
 // # list
@@ -48,6 +50,7 @@ export default class TaskService {
     getNewId() {
         return getLastIdTask();
     }
+
 }
 
 async function getTasks(): Promise<TaskModel[]> {
@@ -66,93 +69,111 @@ async function getTasks(): Promise<TaskModel[]> {
     } catch (error) {
         if (error instanceof Error) {
             console.log('error message: ', error.message);
-            //return error.message;
-            return [];
+            throw new Error(`${error.message}`);
         } else {
             console.log('unexpected error: ', error);
-            //return 'An unexpected error occurred';
-            return [];
+            throw new Error(`${error}`);
         }
     }
 }
 
 async function saveTask(task: TaskModel): Promise<boolean> {
     try {
-        const response = await fetch(environment.urlTodo, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(task)
+        const token = new StorageService().getItem(CONST.AUTHORIZATION.TOKEN);
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Connection': 'keep-alive'
         });
+        const req: RequestInit = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(task)
+        }
+        const response = await fetch(environment.urlTodo, req);
         if (!response.ok) {
             throw new Error(`Error! status: ${response.status}`);
         }
         const result = (await response.json()) as TaskModel;
+        console.log(result);
         return true;
-    } catch (error) {
+    }
+    catch (error) {
         if (error instanceof Error) {
             console.log('error message: ', error.message);
-            //return error.message;
-            return false;
+            throw new Error(`${error.message}`);
         } else {
             console.log('unexpected error: ', error);
-            //return 'An unexpected error occurred';
-            return false;
+            throw new Error(`${error}`);
         }
     }
 }
 
-async function updateTask(task: TaskModel): Promise<TaskModel> {
+async function updateTask(task: TaskModel): Promise<boolean> {
     try {
-        //const bodyfy = JSON.stringify({ todo: task });        
-        const response = await fetch(environment.urlTodo + '/' + task.id, {
+        const token = new StorageService().getItem(CONST.AUTHORIZATION.TOKEN);
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Connection': 'keep-alive'
+        });
+        const req: RequestInit = {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: headers,
             body: JSON.stringify({
                 id: task.id,
                 title: task.title,
                 state: task.state
             })
-        });
+        }
+        const response = await fetch(environment.urlTodo + '/' + task.id, req);
         if (!response.ok) {
             throw new Error(`Error! status: ${response.status}`);
         }
         const result = (await response.json()) as TaskModel;
-        return result;
-    } catch (error) {
+        console.log(result);
+        return true;
+    }
+    catch (error) {
         if (error instanceof Error) {
             console.log('error message: ', error.message);
-            //return error.message;
-            return {} as TaskModel;
+            throw new Error(`${error.message}`);
         } else {
             console.log('unexpected error: ', error);
-            //return 'An unexpected error occurred';
-            return {} as TaskModel;
+            throw new Error(`${error}`);
         }
     }
 }
 
-async function deleteTask(id: string): Promise<string> {
+async function deleteTask(id: string): Promise<boolean> {
     try {
-        const response = await fetch(environment.urlTodo + '/' + id, {
-            method: 'DELETE'
+        const token = new StorageService().getItem(CONST.AUTHORIZATION.TOKEN);
+        const headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Connection': 'keep-alive'
         });
+        const req: RequestInit = {
+            method: 'DELETE',
+            headers: headers
+        }
+        const response = await fetch(environment.urlTodo + '/' + id, req);
+
         if (!response.ok) {
             throw new Error(`Error! status: ${response.status}`);
         }
         const result = (await response.json()) as string;
-        console.log('result is: ', JSON.stringify(result, null, 4));
-        return result;
-    } catch (error) {
+        // console.log('result is: ', JSON.stringify(result, null, 4));
+        console.log(result);
+        return true;
+    }
+    catch (error) {
         if (error instanceof Error) {
             console.log('error message: ', error.message);
-            return error.message;
+            throw new Error(`${error.message}`);
         } else {
             console.log('unexpected error: ', error);
-            return 'An unexpected error occurred';
+            throw new Error(`${error}`);
         }
     }
 }

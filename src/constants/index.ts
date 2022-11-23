@@ -8,8 +8,8 @@ export default {
     KEYNAME: {
         ENTER: 'Enter',
     },
-    DATABASES: {
-        TASKS: 'tasks',
+    AUTHORIZATION: {
+        TOKEN: 'task-jwt',
     },
     ACTIONS: {
         REMOVE: 'remove',
@@ -36,5 +36,8 @@ export default {
         CLEAR_COMPLETED_TASK: 'Your action has been executed! All of the completed tasks were cleared.',
         UPDATE_TASK: 'Your action has been executed! A task was updated successfully.',
         ERROR: 'Oops sorry! Something went wrong. Please try again later.',
+        LOGIN: 'You are logged in in successfully.',
+        LOGOUT: 'You are logged out in successfully.',
+        REGISTRATION: 'You have registered successfully.',
     },
 };

@@ -20,12 +20,12 @@ export default class TaskController {
         this.confirmationController = new ConfirmationController();
     }
 
-    init(bindEvent= true): void {        
-        this.taskService.get().then(res => {
+    init(bindEvent = true): void {
+        this.taskService.get().then((res: TaskModel[]) => {
             this.tasks = res;
             this.displayTasks(this.tasks);
             if (bindEvent)
-                this.taskView.bindEventListeners(this);            
+                this.taskView.bindEventListeners(this);
         });
     }
 
@@ -34,20 +34,23 @@ export default class TaskController {
     };
 
     addTask(title: string): boolean {
-        this.taskService.getNewId().then(res => {
-            if (res) {
+        this.taskService.getNewId().then((newId: string) => {
+            if (newId) {
                 const task: TaskModel = {
-                    id: res,
+                    id: newId,
                     title: title,
                     state: 'doing'
                 }
-                this.taskService.save(task).then(res => {
-                    this.taskService.get().then(res => {
-                        this.tasks = res;                        
-                        this.displayTasks(this.tasks);                        
-                    }); 
-                    return res;                   
-                });
+                this.taskService.save(task)
+                .then((resSave:boolean) => {
+                    this.taskService.get().then((resGet:TaskModel[]) => {
+                        this.tasks = resGet;
+                        this.displayTasks(this.tasks);
+                        this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.ADD_TASK)
+                        return resSave;
+                    });
+                })
+                .catch(err => this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, err));
                 return false;
             }
         });
@@ -55,19 +58,22 @@ export default class TaskController {
     }
 
     updateTask(task: TaskModel) {
-        this.taskService.update(task);
+        this.taskService.update(task)
+            .then(() => this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.UPDATE_TASK))
+            .catch((error: string) => this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, error));
     }
 
     deleteTask() {
         const task = this.tasks.filter((item: TaskModel) => item.id === this.currentTask)[0];
         this.confirmationController.handleHideConfirmation();
         try {
-            this.taskService.delete(task.id);
-            this.taskService.get().then(res => this.displayTasks(res));
-            this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.REMOVE_TASK);
+            this.taskService.delete(task.id)
+                .then(() => this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.REMOVE_TASK))
+                .catch((error: string) => this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, error));
+            this.taskService.get().then((res: TaskModel[]) => this.displayTasks(res));            
             return true;
         } catch (error) {
-            this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.ERROR);
+            this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, CONST.MESSAGES.ERROR);
             return false;
         }
 
@@ -78,7 +84,7 @@ export default class TaskController {
         this.currentTask = taskId;
     }
 
-    markTaskToggle(taskId: string, checked: boolean) {
+    markTaskToggle(taskId: string, checked: boolean): boolean {
         const tasks = this.tasks.filter((item: TaskModel) => item.id === taskId);
         if (tasks.length == 1) {
             const task = tasks[0];
@@ -90,8 +96,17 @@ export default class TaskController {
                     task.state = 'done';
                     break;
             }
-            this.taskService.update(task);
+            this.taskService.update(task)
+                .then(() => {
+                    this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.UPDATE_TASK)
+                    return true;
+                })
+                .catch((err: string) => {
+                    this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, err)
+                    return false;
+                } );
         }
+        return false;
     }
 
     handleShowNotification(type: string, content: string): void {
@@ -148,7 +163,7 @@ export default class TaskController {
     }
 
     filterByValue(array: TaskModel[], input: string) {
-        return array.filter((o:any) =>
+        return array.filter((o: any) =>
             Object.keys(o).some(k => o[k].toLowerCase().includes(input.toLowerCase())));
     }
 }
