@@ -32,7 +32,7 @@ h2 {
 ul li {
 	cursor: pointer;
 	position: relative;
-	padding: 12px 8px 12px 40px;
+	padding: 10px 5px 10px 40px;
 	background: #eee;
 	font-size: 18px;
 	transition: 0.2s;
@@ -59,7 +59,7 @@ ul li {
 
 	/* When clicked on, add a background color and strike out text */
 	ul li.checked {
-		color: #fff;
+		// color: #fff;
 		text-decoration: line-through;
 	}
 
@@ -67,7 +67,6 @@ ul li {
 	ul li.checked::before {
 		content: '';
 		position: absolute;
-		border-color: #fff;
 		border-style: solid;
 		border-width: 0 2px 2px 0;
 		top: 10px;
@@ -75,21 +74,22 @@ ul li {
 		transform: rotate(45deg);
 		height: 15px;
 		width: 7px;
+
+		/* stylelint-disable-next-line scss/double-slash-comment-whitespace-inside */
+		//border-color: #fff;
 	}
 
 	.task-action {
-		padding: 4px 10px;
+		padding: 6px 15px;
 		float: right;
 		margin: 0 2px;
 		font-size: 10px;
 
-		.edit:hover {
-			background-color: blue;
-			color: white;
-		}
-
-		.close:hover {
-			background-color: #f44336;
+		&.edit:hover,
+		&.save:hover,
+		&.undo:hover,
+		&.close:hover {
+			background-color: grey;
 			color: white;
 		}
 	}
@@ -97,7 +97,7 @@ ul li {
 	/* Style the header */
 	.header {
 		background-color: grey;
-		padding: 30px 40px;
+		padding: 30px;
 		color: white;
 		text-align: center;
 	}
@@ -163,6 +163,8 @@ ul li {
 	}
 
 	#tasks {
+		padding: 30px 0;
+
 		input {
 			padding: 4px;
 			max-width: 350px;
@@ -286,6 +288,7 @@ ul li {
 
 .pagination-box {
 	margin: 20px 0;
+	padding: 20px 30px;
 
 	button {
 		padding: 5px 10px;
