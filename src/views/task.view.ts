@@ -37,11 +37,15 @@ export default class TaskView {
             this.tasksDiv!.innerHTML = '';
             const paginationDiv = document.createElement('div');
             paginationDiv.classList.add('pagination-box');
-            paginationDiv.innerHTML = `                   
-                <button class="paging-action" data-action="prev" title="Prev">Previous</button>
-                <button class="paging-action" data-action="next" title="Next">Next</button>
+            paginationDiv.innerHTML = `
+                <div class="float-left">                   
+                    <button class="paging-action btn action" data-action="prev" title="Prev">Previous</button>
+                    <button class="paging-action btn action" data-action="next" title="Next">Next</button>
+                </div>
+                <div class="float-right">                 
                 <span>Total items: ${this.tasksTmp.length}</span>
-                <span>Page: ${this.curPage}</span>
+                    <span>Page: ${this.curPage}</span> 
+                </div>                                
             `;
             this.tasksTmp.filter((_row: TaskModel, _index: number) => {
                 const start = (this.curPage - 1) * this.pageSize;
@@ -68,8 +72,8 @@ export default class TaskView {
                 taskItem.innerHTML = `
                     <li data-task-id="${task.id}" data-action="mark" class="item ${classChecked}">
                         <span>${task.id} - ${task.title}</span>
-                        <button class="task-action edit" data-task-id="${task.id}" data-action="edit" title="Edit">Edit</button>
-                        <button class="task-action close" data-task-id="${task.id}" data-action="remove" title="Delete">Delete</button>                            
+                        <button class="task-action btn action edit" data-task-id="${task.id}" data-action="edit" title="Edit">Edit</button>
+                        <button class="task-action btn action close" data-task-id="${task.id}" data-action="remove" title="Delete">Delete</button>                            
                     </li>`;
                 ul.appendChild(taskItem);
             }
@@ -219,8 +223,8 @@ export default class TaskView {
                 const btnEl = document.createElement('div');
                 btnEl.classList.add('container-action-update');
                 btnEl.innerHTML = `                        
-                            <button class="task-action save" data-task-id="${id}" data-action="save" title="Save">Save</button>
-                            <button class="task-action undo" data-task-id="${id}" data-action="close" title="Close">Close</button>
+                            <button class="task-action btn action save" data-task-id="${id}" data-action="save" title="Save">Save</button>
+                            <button class="task-action btn action undo" data-task-id="${id}" data-action="close" title="Close">Close</button>
                         `;
                 liEl?.appendChild(btnEl);
                 liEl?.querySelector<HTMLDivElement>('button[data-action="edit"]')?.setAttribute('disabled', '');

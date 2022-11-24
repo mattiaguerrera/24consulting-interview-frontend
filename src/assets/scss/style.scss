@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -46,10 +47,49 @@ ul li {
 	user-select: none;
 }
 
+.btn.action {
+	padding: 12px;
+
+	// width: 25%;
+	background: #d9d9d9;
+	color: #555;
+	float: left;
+	text-align: center;
+	font-size: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+	border-radius: 0;
+
+	&.full {
+		display: inline-block;
+		width: 100%;
+	}
+
+	&.paging-action {
+		padding: 5px 10px;
+		margin-right: 5px;
+		border: none;
+	}
+
+	&#logout {
+		background-color: #ff512f;
+	}
+
+	&.task-action {
+		padding: 5px 10px;
+		margin-right: 5px;
+		border: none;
+	}
+}
+
+.btn.action:hover {
+	background-color: #bbb;
+}
+
 .app__task {
 	/* Set all odd list items to a different color (zebra-stripes) */
 	ul li:nth-child(odd) {
-		background: #f9f9f9;
+		background: #fff;
 	}
 
 	/* Darker background-color on hover */
@@ -89,14 +129,14 @@ ul li {
 		&.save:hover,
 		&.undo:hover,
 		&.close:hover {
-			background-color: grey;
-			color: white;
+			// background-color: white;
+			// color: #222;
 		}
 	}
 
 	/* Style the header */
 	.header {
-		background-color: grey;
+		background-color: #444;
 		padding: 30px;
 		color: white;
 		text-align: center;
@@ -107,23 +147,6 @@ ul li {
 		content: '';
 		display: table;
 		clear: both;
-	}
-
-	.btn.action {
-		padding: 12px;
-		width: 25%;
-		background: #d9d9d9;
-		color: #555;
-		float: left;
-		text-align: center;
-		font-size: 16px;
-		cursor: pointer;
-		transition: 0.3s;
-		border-radius: 0;
-	}
-
-	.btn.action:hover {
-		background-color: #bbb;
 	}
 
 	input {
@@ -164,6 +187,7 @@ ul li {
 
 	#tasks {
 		padding: 30px 0;
+		background-color: #fff;
 
 		input {
 			padding: 4px;
@@ -181,6 +205,7 @@ ul li {
 	text-align: center;
 	width: 50%;
 	float: left;
+	margin-bottom: 80px;
 
 	.background {
 		width: 430px;
@@ -214,9 +239,9 @@ ul li {
 
 	form {
 		display: inline-block;
-		height: 520px;
+		height: 570px;
 		width: 400px;
-		background-color: rgb(255 255 255 / 13%);
+		background-color: #444;
 
 		// position: absolute;
 		// transform: translate(-50%, -50%);
@@ -231,7 +256,6 @@ ul li {
 
 	form * {
 		font-family: Poppins, sans-serif;
-		color: #fff;
 		letter-spacing: 0.5px;
 		outline: none;
 		border: none;
@@ -242,6 +266,7 @@ ul li {
 		font-weight: 500;
 		line-height: 42px;
 		text-align: center;
+		color: #fff;
 	}
 
 	label {
@@ -249,24 +274,23 @@ ul li {
 		margin-top: 30px;
 		font-size: 16px;
 		font-weight: 500;
+		color: #fff;
 	}
 
-	/* stylelint-disable-next-line no-descending-specificity */
 	input {
 		display: block;
 		height: 50px;
 		width: 100%;
-		background-color: rgb(255 255 255 / 7%);
-		border-radius: 3px;
+		background-color: #eee;
 		padding: 0 10px;
 		margin-top: 8px;
 		font-size: 14px;
 		font-weight: 300;
 	}
 
-	::placeholder {
-		color: #e5e5e5;
-	}
+	// ::placeholder {
+	// 	color: #e5e5e5;
+	// }
 
 	button,
 	span {
@@ -277,8 +301,12 @@ ul li {
 		padding: 15px 0;
 		font-size: 18px;
 		font-weight: 600;
-		border-radius: 5px;
 		cursor: pointer;
+
+		&:hover {
+			background-color: #444;
+			color: #fff;
+		}
 	}
 
 	span {
@@ -298,4 +326,16 @@ ul li {
 	span {
 		margin-left: 20px;
 	}
+}
+
+.float-left {
+	overflow: hidden;
+	display: inline-block;
+	float: left;
+}
+
+.float-right {
+	overflow: hidden;
+	display: inline-block;
+	float: right;
 }
