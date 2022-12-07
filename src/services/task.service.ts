@@ -205,4 +205,5 @@ const getTasksId = async () => {
     catch (error) {
         console.log(error);
     }
+    return 0;
 }

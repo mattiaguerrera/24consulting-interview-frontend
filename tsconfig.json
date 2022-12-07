@@ -13,7 +13,12 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noImplicitReturns": true,
-        // "noImplicitThis": false
-	},
-	"include": ["src"]
+        // "noImplicitThis": false        
+	},	
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }
