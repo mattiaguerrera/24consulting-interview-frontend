@@ -15,10 +15,11 @@
 		"noImplicitReturns": true,
         // "noImplicitThis": false        
 	},	
-    "include": [
-        "src"
+    "include": [        
+        "test"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "src"
     ]
 }

@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
-import StylelintPlugin from 'vite-plugin-stylelint'
 import EslintPlugin from 'vite-plugin-eslint'
+import StylelintPlugin from 'vite-plugin-stylelint'
 
 export default defineConfig({
 	plugins: [StylelintPlugin(), EslintPlugin()]

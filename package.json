@@ -5,7 +5,8 @@
     "scripts": {
         "dev": "vite --port 3000",
         "build": "tsc && vite build",
-        "build-test": "tsc .\\test\\calculator.spec.ts .\\test\\task.spec.ts .\\test\\user.spec.ts",        
+        "build-test": "tsc test/user.spec.ts test/task.spec.ts",
+        "clean-test": "del test/src/**/*.js",
         "preview": "vite preview",
         "lint": "eslint ./src --ext .ts",
         "start": "json-server-auth --watch json-server/db.json --port 3001",
@@ -20,6 +21,7 @@
         "@typescript-eslint/parser": "^5.42.1",
         "chai": "^4.3.7",
         "concurrently": "^7.5.0",
+        "del-cli": "^5.0.0",
         "eslint": "^8.27.0",
         "eslint-config-prettier": "^8.5.0",
         "json-server": "^0.17.1",

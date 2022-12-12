@@ -6,6 +6,8 @@ Complete all tasks and submit a pull-request to proceed.
 ## e2e Testing with MochaJs
 ```bash
 npm install -D mocha chai @types/mocha @types/chai
+npm run build-test
+npm run clean-test
 npm run test
 ```
 
