@@ -53,6 +53,7 @@ export default class TaskController {
                 .catch(err => this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, err));
                 return false;
             }
+            return false;
         });
         return false;
     }

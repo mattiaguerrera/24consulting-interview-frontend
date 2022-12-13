@@ -134,7 +134,7 @@ export default class TaskView {
                 const input = e.target as HTMLInputElement;
                 if (!input.value.length)
                     return;
-                const result = controller.addTask(input.value);
+                controller.addTask(input.value);
                 // TODO perché result è vuoto?
                 // if (result) {
                 //     this.taskSaveInput.innerHTML = '';
@@ -236,7 +236,7 @@ export default class TaskView {
 
     toggleActionButtonLi(targetNode: HTMLElement) {
         if (targetNode) {
-            const id = targetNode.getAttribute('data-task-id')!;
+            // const id = targetNode.getAttribute('data-task-id')!;
             const liEl = targetNode.closest('li');
             if (liEl) {
                 liEl?.querySelector<HTMLDivElement>('button[data-action="edit"]')?.removeAttribute('disabled');
