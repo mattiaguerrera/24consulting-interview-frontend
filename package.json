@@ -5,13 +5,11 @@
     "scripts": {
         "dev": "vite --port 3000",
         "build": "tsc && vite build",
-        "build-test": "tsc test/user.spec.ts test/task.spec.ts",
-        "clean-test": "del test/src/**/*.js",
         "preview": "vite preview",
         "lint": "eslint ./src --ext .ts",
         "start": "json-server-auth --watch json-server/db.json --port 3001",
         "start-dev": "concurrently \"npm run dev\" \"npm run start\"",
-        "test": "mocha"
+        "test": "mocha \"spec/**/*.spec.js\""
     },
     "devDependencies": {
         "@types/chai": "^4.3.4",

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { assert } from "chai";
-import UserLoginModel from "../src/models/user-login.model";
-import UserService from "../src/services/user.service";
+import UserLoginModel from "../models/user-login.model";
+import UserService from "../services/user.service";
 
 describe("User Tests", () => {
     it("should return true for validation of jwt token", () => {
