@@ -1,16 +1,6 @@
 {
   "todo": [
     {
-      "id": "2",
-      "title": "ERRETERTRE",
-      "state": "doing"
-    },
-    {
-      "id": "3",
-      "title": "Lorem ipsum dolor",
-      "state": "done"
-    },
-    {
       "id": "4",
       "title": "Lorem ipsum dolor",
       "state": "done"
@@ -18,12 +8,12 @@
     {
       "id": "5",
       "title": "Lorem ipsum dolor",
-      "state": "done"
+      "state": "doing"
     },
     {
       "id": "6",
       "title": "Lorem ipsum dolor",
-      "state": "done"
+      "state": "doing"
     },
     {
       "id": "7",
@@ -118,7 +108,12 @@
     {
       "id": "25",
       "title": "FGREGG",
-      "state": "doing"
+      "state": "done"
+    },
+    {
+      "id": "26",
+      "title": "fff",
+      "state": "done"
     }
   ],
   "users": [

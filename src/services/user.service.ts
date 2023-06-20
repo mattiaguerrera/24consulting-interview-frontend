@@ -13,7 +13,7 @@ export default class UserService {
 }
 
 
-async function loginUser(user: UserModel): Promise<any> {
+async function loginUser(user: UserModel): Promise<unknown> {
     try {
         const response = await fetch(environment.urlUserLogin, {
             method: 'POST',
@@ -25,7 +25,7 @@ async function loginUser(user: UserModel): Promise<any> {
         if (!response.ok) {
             throw new Error(`Error! status: ${response.status}`);
         }
-        const result = (await response.json()) as any;
+        const result = (await response.json()) as unknown;
         console.log(result);
         return result;
     } catch (error) {
@@ -39,7 +39,7 @@ async function loginUser(user: UserModel): Promise<any> {
     }
 }
 
-async function registerUser(user: UserModel): Promise<any> {
+async function registerUser(user: UserModel): Promise<unknown> {
     try {
         const response = await fetch(environment.urlUserRegister, {
             method: 'POST',
@@ -51,7 +51,7 @@ async function registerUser(user: UserModel): Promise<any> {
         if (!response.ok) {
             throw new Error(`Error! status: ${response.status}`);
         }
-        const result = (await response.json()) as any;
+        const result = (await response.json()) as unknown;
         return result;
     } catch (error) {
         if (error instanceof Error) {

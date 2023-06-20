@@ -42,15 +42,15 @@ export default class TaskController {
                     state: 'doing'
                 }
                 this.taskService.save(task)
-                .then((resSave:boolean) => {
-                    this.taskService.get().then((resGet:TaskModel[]) => {
-                        this.tasks = resGet;
-                        this.displayTasks(this.tasks);
-                        this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.ADD_TASK)
-                        return resSave;
-                    });
-                })
-                .catch(err => this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, err));
+                    .then((resSave: boolean) => {
+                        this.taskService.get().then((resGet: TaskModel[]) => {
+                            this.tasks = resGet;
+                            this.displayTasks(this.tasks);
+                            this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.ADD_TASK)
+                            return resSave;
+                        });
+                    })
+                    .catch(err => this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, err));
                 return false;
             }
             return false;
@@ -71,7 +71,7 @@ export default class TaskController {
             this.taskService.delete(task.id)
                 .then(() => this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.REMOVE_TASK))
                 .catch((error: string) => this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, error));
-            this.taskService.get().then((res: TaskModel[]) => this.displayTasks(res));            
+            this.taskService.get().then((res: TaskModel[]) => this.displayTasks(res));
             return true;
         } catch (error) {
             this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, CONST.MESSAGES.ERROR);
@@ -85,29 +85,37 @@ export default class TaskController {
         this.currentTask = taskId;
     }
 
-    markTaskToggle(taskId: string, checked: boolean): boolean {
+    markTaskToggle(taskId: string, checked: boolean): Promise<boolean> {
         const tasks = this.tasks.filter((item: TaskModel) => item.id === taskId);
+        let task: TaskModel | undefined = undefined;
         if (tasks.length == 1) {
-            const task = tasks[0];
+            task = tasks[0];
             switch (checked) {
                 case false:
-                    task.state = 'doing';
-                    break;
-                default:
                     task.state = 'done';
                     break;
+                default:
+                    task.state = 'doing';
+                    break;
             }
-            this.taskService.update(task)
-                .then(() => {
-                    this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.UPDATE_TASK)
-                    return true;
-                })
-                .catch((err: string) => {
-                    this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, err)
-                    return false;
-                } );
         }
-        return false;
+
+        if (task) {
+            return new Promise<boolean>((resolve, reject) => {
+                this.taskService
+                    .update(task!)
+                    .then(() => {
+                        this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.UPDATE_TASK);
+                        resolve(true);
+                    })
+                    .catch((err: string) => {
+                        this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, err);
+                        resolve(false);
+                    });
+            });
+        }
+        return new Promise<boolean>((resolve) => resolve(false));
+
     }
 
     handleShowNotification(type: string, content: string): void {

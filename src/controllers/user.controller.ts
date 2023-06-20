@@ -25,9 +25,13 @@ export default class UserController {
         this.userService.login(user)
             .then((res:any) => {
                 const authToken: string = res['accessToken'];                
-                if (authToken)
+                if (authToken) {
                     this.storageService.setItem(CONST.AUTHORIZATION.TOKEN, authToken);
-                this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.LOGIN);
+                    this.handleShowNotification(CONST.NOTIFICATIONS.SUCCESS, CONST.MESSAGES.LOGIN);
+                    return;
+                }
+                    
+                this.handleShowNotification(CONST.NOTIFICATIONS.WARNING, CONST.MESSAGES.ERROR);
             } )
             .catch((error: string) => this.handleShowNotification(CONST.NOTIFICATIONS.ERROR, error));        
     };
