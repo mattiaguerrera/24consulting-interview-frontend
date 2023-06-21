@@ -85,7 +85,7 @@ export default class TaskView {
     bindEventListeners(controller: TaskController): void {
 
         const tasksContent = qs('#tasks');
-        tasksContent?.addEventListener('click', (e: Event) => {
+        tasksContent?.addEventListener('click', async (e: Event) => {
             e.preventDefault();
             e.stopPropagation();
 
@@ -119,7 +119,7 @@ export default class TaskView {
                     if (li) {
                         const classList = li.classList;
                         const checked = classList.contains('checked');
-                        if (controller.markTaskToggle(taskId, checked))
+                        if (await controller.markTaskToggle(taskId, checked))
                             classList.toggle('checked')
                     }
                     break;

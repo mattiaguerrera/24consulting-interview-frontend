@@ -15,6 +15,17 @@
 </head>
 
 <body>
+
+    <nav>
+        <div class="navbar">
+            <div class="logo"><a href="#">24/Consulting Frontend Interview</a></div>
+            <ul class="menu">
+                <li><a id="modal-login" href="#Login">Login</a></li>
+                <li><a id="modal-reg" href="#Registration">Registration</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <div id="app" style="display:none;"></div>
     <div class="container" style="display:none;">
         <h1>Hello 24/Consulting!</h1>
@@ -84,29 +95,36 @@
         </div>
     </div>
     <!-- LoginUser area -->
-    <div class="app__login">
-        <form>
-            <h3>Login Here</h3>
-            <label for="username">Username</label>
-            <input type="text" placeholder="Email" id="email">
-            <label for="password">Password</label>
-            <input type="password" placeholder="Password" id="password">
-            <button class="btn action full">Log In</button>
-            <span class="btn action full" id="logout">Log out</span>
-        </form>
-        
+    <div class="app__login modal">
+        <div class="modal-content">
+            <form onsubmit="return false">
+                <h3>Login Here</h3>
+                <label for="username">Username</label>
+                <input type="text" placeholder="Email" id="email">
+                <label for="password">Password</label>
+                <input type="password" placeholder="Password" id="password">
+                <button class="btn action full">Log In</button>
+                <button class="btn action full" id="logout">Log out</button>
+                <button class="btn action close" type="button">x</button>
+            </form>
+        </div>
+
     </div>
     <!-- RegisterUser area -->
-    <div class="app__register">
-        <form>
-            <h3>Registration Here</h3>
-            <label for="username">Username</label>
-            <input type="text" placeholder="Email" id="email">
-            <label for="password">Password</label>
-            <input type="password" placeholder="Password" id="password">
-            <button class="btn action full">Sign in</button>
-        </form>
+    <div class="app__register modal">
+        <div class="modal-content">
+            <form onsubmit="return false">
+                <h3>Registration Here</h3>
+                <label for="username">Username</label>
+                <input type="text" placeholder="Email" id="email">
+                <label for="password">Password</label>
+                <input type="password" placeholder="Password" id="password">
+                <button class="btn action full">Sign in</button>
+                <button class="btn action close" type="button">x</button>
+            </form>
+        </div>
     </div>
+
     <script type="module" src="/src/main.ts"></script>
 </body>
 
